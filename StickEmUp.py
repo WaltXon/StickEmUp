@@ -10,12 +10,12 @@ print("Setting Configuration")
 ###Configuration (Distances in Feet)
 SPACING = 1000.0
 
-
 WORKSPACE = r'K:\SCRIPTS\StickEmUp\StickEmUp.gdb'
 arcpy.env.workspace = WORKSPACE
 UNITS = "MKR_AllUnits_20131114" #'ChiefPudAUnits'
 LATERALS_OUT = "Laterals2" 
-INTERSECT_OUT= "LateralsFinal"
+INTERSECT_OUT= "Laterals3"
+EXPLODE_OUT = "LateralsFinal"
 UNIT_BUFFER = "UnitsBuffered"
 proj = arcpy.Describe(UNITS).spatialReference
 
@@ -72,9 +72,9 @@ print("Run Intersect")
 arcpy.Intersect_analysis([polylines,UNIT_BUFFER], INTERSECT_OUT, "ALL")
 
 ##Consider Re-calcuating Geometry After Inersect
-
+arcpy.MultipartToSinglepart_management (INTERSECT_OUT, EXPLODE_OUT)
 print("Remove Short Laterals")
-with arcpy.da.UpdateCursor(INTERSECT_OUT,"SHAPE@LENGTH") as cursor:
+with arcpy.da.UpdateCursor(EXPLODE_OUT,"SHAPE@LENGTH") as cursor:
     for row in cursor:
         if row[0] < 1500.0:
             print("deleted lateral = {0} ...too short".format(row[0]))

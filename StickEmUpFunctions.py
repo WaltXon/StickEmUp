@@ -99,7 +99,7 @@ def LongEdgeAngle(pointList):
 
 #Draw Lines Function
 def DrawLinesFromPointList(pointList, outputFile, projection):
-    print("DrawLinesFromPointList()")
+    # print("DrawLinesFromPointList()")
     # A list of features and coordinate pairs
     feature_info = [[[1, 2], [2, 4], [3, 7]],
                     [[6, 8], [5, 7], [7, 2], [9, 5]]]
